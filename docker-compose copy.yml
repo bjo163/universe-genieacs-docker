@@ -21,7 +21,7 @@ services:
       - "7547:7547"
       - "7557:7557"
       - "7567:7567"
-      - "3047:3000"
+      - "3000:3000"
     volumes:
       - ext_volume:/opt/genieacs/ext
     networks:
@@ -38,10 +38,12 @@ services:
     image: mongo:8.0
     restart: unless-stopped
     container_name: mongo-genieacs
-    # environment:
-    #   # Uncomment and set these for production use
-    #   # MONGO_INITDB_ROOT_USERNAME: userchange
-    #   # MONGO_INITDB_ROOT_PASSWORD: passwordchange
+    environment:
+      # Uncomment and set these for production use
+      # MONGO_INITDB_ROOT_USERNAME: userchange
+      # MONGO_INITDB_ROOT_PASSWORD: passwordchange
+      MONGO_DATA_DIR: /data/db
+      MONGO_LOG_DIR: /var/log/mongodb
     volumes:
       - data_db:/data/db
       - data_configdb:/data/configdb
@@ -84,7 +86,7 @@ services:
       ACS_USER: admin
       ACS_PASS: admin # Set by default after the wizard, please change
     ports:
-      - "8081:8080"
+      - "8080:8080"
     networks:
       - genieacs_network
     profiles:
