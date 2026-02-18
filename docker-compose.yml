@@ -1,10 +1,8 @@
 services:
+
   ### GenieACS Docker ###
   # Dockerfile: https://hub.docker.com/r/drumsergio/genieacs/Dockerfile
   genieacs:
-    depends_on:
-      mongo:
-        condition: service_healthy
     image: drumsergio/genieacs:1.2.13.2
     restart: unless-stopped
     container_name: genieacs
@@ -16,12 +14,13 @@ services:
       GENIEACS_UI_ACCESS_LOG_FILE: /var/log/genieacs/genieacs-ui-access.log
       GENIEACS_DEBUG_FILE: /var/log/genieacs/genieacs-debug.yaml
       GENIEACS_EXT_DIR: /opt/genieacs/ext
-      GENIEACS_MONGODB_CONNECTION_URL: mongodb://mongo/genieacs?authSource=admin
+      # Connection string diatur lewat file .env
+      GENIEACS_MONGODB_CONNECTION_URL: ${GENIEACS_MONGODB_CONNECTION_URL}
     ports:
       - "7547:7547"
       - "7557:7557"
       - "7567:7567"
-      - "3047:3000"
+      - "3000:3000"
     volumes:
       - ext_volume:/opt/genieacs/ext
     networks:
@@ -32,29 +31,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
-
-  ### Main GenieACS DB: MongoDB ###
-  mongo:
-    image: mongo:8.0
-    restart: unless-stopped
-    container_name: mongo-genieacs
-    # environment:
-    #   # Uncomment and set these for production use
-    #   # MONGO_INITDB_ROOT_USERNAME: userchange
-    #   # MONGO_INITDB_ROOT_PASSWORD: passwordchange
-    volumes:
-      - data_db:/data/db
-      - data_configdb:/data/configdb
-    expose:
-      - "27017"
-    networks:
-      - genieacs_network
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 40s
 
   ### THIS SERVICE IS JUST FOR TESTING ###
   # Dockerfile here: https://hub.docker.com/r/drumsergio/genieacs-sim/Dockerfile
