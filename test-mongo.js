@@ -2,7 +2,7 @@ const { MongoClient } = require("mongodb");
 
 const url =
   process.env.GENIEACS_MONGODB_CONNECTION_URL ||
-  "mongodb://root:7mE8B1eIhi187sINgrHTJ9D8K2YJeEguyPTmPaza5DJrKDHDc3gkEIIPwzlvMCNC@160.22.193.46:27020/?directConnection=true";
+  "mongodb://root:wTbOMJL6bZZN5Tn6NBQ82s2i6uRhd0uwGovHtaRB2g6NonqNu0kjOAwIXeILAJVu@160.22.193.46:27021/?directConnection=true";
 
 console.log("=== GenieACS MongoDB Connection Test ===\n");
 console.log("URL:", url.replace(/:([^@]+)@/, ":****@")); // hide password
