@@ -23,8 +23,6 @@ services:
       - "3047:3000"
     volumes:
       - ext_volume:/opt/genieacs/ext
-    networks:
-      - genieacs_network
     healthcheck:
       test: ["CMD", "wget", "--spider", "--quiet", "http://localhost:3000"]
       interval: 30s
@@ -41,8 +39,6 @@ services:
     image: drumsergio/genieacs-sim:latest
     container_name: genieacs-sim
     restart: unless-stopped
-    networks:
-      - genieacs_network
     profiles:
       - testing
 
